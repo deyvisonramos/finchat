@@ -1,17 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FinChat.Chat.Application.Enums;
+using FinChat.Chat.Domain.Notification;
 
 namespace FinChat.Chat.Application.Models
 {
-    public class BasicOutput<TOutput>
+    public class BasicOutput<TOutput>: NotificationContext
     {
         public BasicOutput()
         {
-            Messages = new List<OutputNotification>();
         }
-        public TOutput Output { get; set; }
-        public List<OutputNotification> Messages { get; set; }
-        public bool Success => Messages.All(msg => msg.Type != EOutputNotificationType.Error);
+
+        public TOutput Output { get; private set;}
+        public bool Success => !Invalid;
+
+        public void SetOutput(TOutput output)
+        {
+            Output = output;
+        }
     }
 }

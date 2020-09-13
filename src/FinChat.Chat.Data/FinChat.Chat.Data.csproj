@@ -4,4 +4,13 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Context\" />
+    <Folder Include="Transactions\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FinChat.Chat.Domain\FinChat.Chat.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

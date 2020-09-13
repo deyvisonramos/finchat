@@ -22,7 +22,7 @@ namespace FinChat.Chat.Web.Transformers
 
             var viewModel = new ChatRoomViewModel
             {
-                Id = chatRoom.Id,
+                Id = chatRoom.Id.ToString(),
                 Name = chatRoom.Name
             };
 

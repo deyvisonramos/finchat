@@ -9,7 +9,7 @@ namespace FinChat.Chat.Application.Interfaces
     {
         Task<BasicOutput<IEnumerable<ChatRoom>>> GetChatRooms();
         Task<BasicOutput<ChatRoom>> GetChatRoom(string chatRoomId);
-        Task<BasicOutput<IEnumerable<ChatMessage>>> GetChatRoomConversation(string chatRoomId);
+        Task<BasicOutput<IEnumerable<ChatMessage>>> GetRecentChatRoomConversation(string chatRoomId);
         Task<BasicOutput<ChatRoom>> CreateChatRoom(string chatRoomName);
         Task<BasicOutput<string>> SendMessage(
             string chatRoomId,

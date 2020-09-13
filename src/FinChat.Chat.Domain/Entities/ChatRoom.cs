@@ -1,25 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using FinChat.Chat.Domain.Entities.Validators;
 
 namespace FinChat.Chat.Domain.Entities
 {
-    public class ChatRoom
+    public class ChatRoom: Entity
     {
         protected ChatRoom()
         {
-            Conversation = new Collection<ChatMessage>();
         }
 
-        public ChatRoom(string name): this()
+        public ChatRoom(string name)
         {
-            Id = Guid.NewGuid().ToString();
+            Id = Guid.NewGuid();
             Name = name;
+            Conversation = new Collection<ChatMessage>();
+
+            Validate(this, new ChatRoomValidator());
         }
 
-        public string Id { get; set; }
         public string Name { get; set; }
         public ICollection<ChatMessage> Conversation { get; set; }
+
+        public void AddChatMessage(ChatMessage chatMessage)
+        {
+            Conversation.Add(chatMessage);
+        }
 
         public override string ToString()
         {
