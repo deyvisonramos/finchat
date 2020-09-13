@@ -1,0 +1,50 @@
+﻿@using System.Diagnostics.Eventing.Reader
+@model IEnumerable<ChatRoomViewModel>
+
+@{
+    ViewBag.Title = "Chat Rooms";
+    Layout = "_Layout";
+}
+
+<h2>Chat Rooms</h2>
+
+@Html.ActionLink("Create", "CreateChatRoom");
+
+<table>
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Any())
+        {
+            @foreach (var chatRoom in Model)
+            {
+                <tr>
+                    <td>
+                        @chatRoom.Id
+                    </td>
+                    <td>
+                        @chatRoom.Name
+                    </td>
+                    <td>
+                        @Html.ActionLink("Join", "JoinChatRoom", new { chatRoomId = chatRoom.Id })
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <p>There's not chat rooms created yet, @Html.ActionLink("click here", "CreateChatRoom") to create a new one. </p>
+        }
+    </tbody>
+</table>

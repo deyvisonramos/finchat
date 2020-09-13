@@ -1,0 +1,14 @@
+﻿@model ChatRoomViewModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Create New Chat Room</h2>
+
+<form asp-action="CreateChatRoom" method="post">
+    <input asp-for="@Model.Name">
+    <!-- Input and Submit elements -->
+    <button>Create</button>
+</form>
