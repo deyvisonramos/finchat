@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FinChat.Chat.IoC\FinChat.Chat.IoC.csproj" />
+  </ItemGroup>
+
 </Project>
