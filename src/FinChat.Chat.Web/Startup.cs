@@ -2,7 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FinChat.Chat.Domain.Entities;
 using FinChat.Chat.IoC;
+using FinChat.Chat.Web.Models;
+using FinChat.Chat.Web.Transformers;
+using FinChat.Chat.Web.Transformers.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -25,6 +29,8 @@ namespace FinChat.Chat.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.RegisterChatServices();
+            services.AddScoped<ITransformer<ChatRoom, ChatRoomViewModel>, ChatRoomTransformer>();
+            services.AddScoped<ITransformer<ChatMessage, ChatMessageViewModel>, ChatMessageTransformer>();
             services.AddControllersWithViews();
         }
 

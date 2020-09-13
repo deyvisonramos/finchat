@@ -1,15 +1,29 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using FinChat.Chat.Application.Interfaces;
+using FinChat.Chat.Domain.Entities;
 using FinChat.Chat.Web.Models;
+using FinChat.Chat.Web.Transformers.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinChat.Chat.Web.Controllers
 {
     public class ChatController : Controller
     {
-        public IActionResult Index()
+        private readonly IChatService _chatService;
+        private readonly ITransformer<ChatRoom, ChatRoomViewModel> _chatRoomTransformer;
+
+        public ChatController(IChatService chatService, ITransformer<ChatRoom, ChatRoomViewModel> chatRoomTransformer)
         {
-            var chatRooms = new List<ChatRoomViewModel>();
-            return View(chatRooms);
+            _chatService = chatService;
+            _chatRoomTransformer = chatRoomTransformer;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var result = await _chatService.GetChatRooms();
+            var viewResult = _chatRoomTransformer.Transform(result.Output);
+            return View(viewResult);
         }
 
         public IActionResult CreateChatRoom()
@@ -18,22 +32,24 @@ namespace FinChat.Chat.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateChatRoom(ChatRoomViewModel viewModel)
+        public async Task<IActionResult> CreateChatRoom(ChatRoomViewModel viewModel)
         {
-            return RedirectToAction("JoinChatRoom", new { chatRoomId = viewModel.Id });
+            var result = await _chatService.CreateChatRoom(viewModel.Name);
+            return RedirectToAction("JoinChatRoom", new { chatRoomId = result.Output.Id });
         }
 
-        public IActionResult JoinChatRoom([FromQuery] string chatRoomId)
+        public async Task<IActionResult> JoinChatRoom([FromQuery] string chatRoomId)
         {
-            var model = new ChatRoomViewModel();
-            return View("ChatRoom",  model);
+            var result = await _chatService.GetChatRoom(chatRoomId);
+            var viewResult = _chatRoomTransformer.Transform(result.Output);
+            return View("ChatRoom",  viewResult);
         }
 
         [HttpPost]
-        public IActionResult SendMessage(ChatMessageViewModel model)
+        public async Task<IActionResult> SendMessage(ChatMessageViewModel model)
         {
-            //save the message and send to socket;
-            return Ok(model);
+            var result = await _chatService.SendMessage(model.ChatRoomId, model.AuthorId, model.AuthorName, model.Message);
+            return Ok(result);
         }
     }
 }

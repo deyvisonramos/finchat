@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace FinChat.Chat.Domain.Entities
 {
@@ -6,10 +8,10 @@ namespace FinChat.Chat.Domain.Entities
     {
         protected ChatRoom()
         {
-
+            Conversation = new Collection<ChatMessage>();
         }
 
-        public ChatRoom(string name)
+        public ChatRoom(string name): this()
         {
             Id = Guid.NewGuid().ToString();
             Name = name;
@@ -17,6 +19,7 @@ namespace FinChat.Chat.Domain.Entities
 
         public string Id { get; set; }
         public string Name { get; set; }
+        public ICollection<ChatMessage> Conversation { get; set; }
 
         public override string ToString()
         {
