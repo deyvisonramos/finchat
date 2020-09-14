@@ -15,8 +15,8 @@ namespace FinChat.Chat.IoC
             services.AddTransient<IChatService, ChatService>();
             services.AddTransient<IWebSocketService, SignalRWebSocket>();
 
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddSingleton<IChatRoomRepository, ChatRoomRepository>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IChatRoomRepository, ChatRoomRepository>();
         }
     }
 }

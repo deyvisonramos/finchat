@@ -24,5 +24,10 @@ namespace FinChat.Chat.WebSocket
         {
             await _hubContext.Clients.Group(chatRoomId).SendAsync("ReceiveMessage", chatMessage.Author.Name, chatMessage.FormattedContent).ConfigureAwait(true);
         }
+
+        public async Task SendCommand(string chatRoomId, string command)
+        {
+            await _hubContext.Clients.All.SendAsync("ReceiveCommand", chatRoomId, command).ConfigureAwait(true);
+        }
     }
 }

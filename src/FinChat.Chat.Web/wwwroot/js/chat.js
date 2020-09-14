@@ -10,7 +10,17 @@ connection.on("ReceiveMessage", function (user, message) {
     var encodedMsg = msg;
     var li = document.createElement("li");
     li.textContent = encodedMsg;
-    document.getElementById("messagesList").appendChild(li);
+    var messageList = document.getElementById("messagesList");
+
+    if (!!messageList.firstChild) {
+        messageList.insertBefore(li, messageList.firstChild);
+    } else {
+        messageList.appendChild(li);
+    }
+
+    if (messageList.childElementCount >= 50) {
+        messageList.removeChild(messageList.lastChild);
+    }
 });
 
 connection.start().then(function () {
@@ -28,15 +38,12 @@ connection.start().then(function () {
 
 $('#messageForm').submit(function () {
     var $theForm = $(this);
-    console.log('got here')
     // send xhr request
     $.ajax({
         type: $theForm.attr('method'),
         url: $theForm.attr('action'),
         data: $theForm.serialize(),
         success: function (data) {
-            console.log('Yay! Form sent.');
-            console.log(data);
         }
     });
 

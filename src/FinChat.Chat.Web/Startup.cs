@@ -1,3 +1,4 @@
+using FinChat.Chat.Data.Context;
 using FinChat.Chat.Domain.Entities;
 using FinChat.Chat.IoC;
 using FinChat.Chat.Web.Models;
@@ -6,6 +7,7 @@ using FinChat.Chat.Web.Transformers.Interfaces;
 using FinChat.Chat.WebSocket.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,6 +26,10 @@ namespace FinChat.Chat.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<FinChatDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("FinChatDbCS"));
+            });
             services.RegisterChatServices();
             services.AddScoped<ITransformer<ChatRoom, ChatRoomViewModel>, ChatRoomTransformer>();
             services.AddScoped<ITransformer<ChatMessage, ChatMessageViewModel>, ChatMessageTransformer>();

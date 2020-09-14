@@ -19,9 +19,9 @@ namespace FinChat.Chat.Web.Controllers
             _chatRoomTransformer = chatRoomTransformer;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var result = await _chatService.GetChatRooms();
+            var result = _chatService.GetChatRooms();
             var viewResult = _chatRoomTransformer.Transform(result.Output);
             return View(viewResult);
         }

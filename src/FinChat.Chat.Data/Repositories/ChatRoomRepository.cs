@@ -5,95 +5,52 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FinChat.Chat.Data.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinChat.Chat.Data.Repositories
 {
     public class ChatRoomRepository : IChatRoomRepository
     {
-        private readonly List<ChatRoom> data;
+        private readonly FinChatDbContext _context;
 
-        public ChatRoomRepository()
+        public ChatRoomRepository(FinChatDbContext context)
         {
-            var chatRoom = new ChatRoom("teste");
-            var chatRoom1 = new ChatRoom("teste");
-            var chatRoom2 = new ChatRoom("teste");
-
-
-            chatRoom.Conversation = new List<ChatMessage>
-            {
-                new ChatMessage("test message", new ChatMessageAuthor(Guid.NewGuid().ToString(), "Authro test 1")),
-                new ChatMessage("test message", new ChatMessageAuthor(Guid.NewGuid().ToString(), "Authro test 1")),
-                new ChatMessage("test message", new ChatMessageAuthor(Guid.NewGuid().ToString(), "Authro test 1")),
-                new ChatMessage("test message", new ChatMessageAuthor(Guid.NewGuid().ToString(), "Authro test 1")),
-                new ChatMessage("test message", new ChatMessageAuthor(Guid.NewGuid().ToString(), "Authro test 1")),
-                new ChatMessage("test message", new ChatMessageAuthor(Guid.NewGuid().ToString(), "Authro test 1")),
-                new ChatMessage("test message", new ChatMessageAuthor(Guid.NewGuid().ToString(), "Authro test 1")),
-                new ChatMessage("test message", new ChatMessageAuthor(Guid.NewGuid().ToString(), "Authro test 1")),
-                new ChatMessage("test message", new ChatMessageAuthor(Guid.NewGuid().ToString(), "Authro test 1")),
-            };
-            chatRoom1.Conversation = new List<ChatMessage>
-            {
-                new ChatMessage("test message", new ChatMessageAuthor(Guid.NewGuid().ToString(), "Authro test 2")),
-                new ChatMessage("test message", new ChatMessageAuthor(Guid.NewGuid().ToString(), "Authro test 2")),
-                new ChatMessage("test message", new ChatMessageAuthor(Guid.NewGuid().ToString(), "Authro test 2")),
-                new ChatMessage("test message", new ChatMessageAuthor(Guid.NewGuid().ToString(), "Authro test 2")),
-                new ChatMessage("test message", new ChatMessageAuthor(Guid.NewGuid().ToString(), "Authro test 2")),
-                new ChatMessage("test message", new ChatMessageAuthor(Guid.NewGuid().ToString(), "Authro test 2")),
-                new ChatMessage("test message", new ChatMessageAuthor(Guid.NewGuid().ToString(), "Authro test 2")),
-                new ChatMessage("test message", new ChatMessageAuthor(Guid.NewGuid().ToString(), "Authro test 2")),
-                new ChatMessage("test message", new ChatMessageAuthor(Guid.NewGuid().ToString(), "Authro test 2")),
-            }; 
-            chatRoom2.Conversation = new List<ChatMessage>
-            {
-                new ChatMessage("test message", new ChatMessageAuthor(Guid.NewGuid().ToString(), "Authro test 3")),
-                new ChatMessage("test message", new ChatMessageAuthor(Guid.NewGuid().ToString(), "Authro test 3")),
-                new ChatMessage("test message", new ChatMessageAuthor(Guid.NewGuid().ToString(), "Authro test 3")),
-                new ChatMessage("test message", new ChatMessageAuthor(Guid.NewGuid().ToString(), "Authro test 3")),
-                new ChatMessage("test message", new ChatMessageAuthor(Guid.NewGuid().ToString(), "Authro test 3")),
-                new ChatMessage("test message", new ChatMessageAuthor(Guid.NewGuid().ToString(), "Authro test 3")),
-                new ChatMessage("test message", new ChatMessageAuthor(Guid.NewGuid().ToString(), "Authro test 3")),
-                new ChatMessage("test message", new ChatMessageAuthor(Guid.NewGuid().ToString(), "Authro test 3")),
-                new ChatMessage("test message", new ChatMessageAuthor(Guid.NewGuid().ToString(), "Authro test 3")),
-            };
-
-            data = new List<ChatRoom>() {
-                chatRoom,
-                chatRoom1,
-                chatRoom2
-            };
-
+            _context = context;
         }
 
         public async Task Create(ChatRoom chatRoom)
         {
-            data.Add(chatRoom);
+            await _context.AddAsync(chatRoom);
         }
 
-        public async Task<IEnumerable<ChatRoom>> GetAll()
+        public IEnumerable<ChatRoom> GetAll()
         {
-            return data;
+            return _context.ChatRooms.AsEnumerable();
         }
 
-        public async Task<ChatRoom> GetChatRoomById(string chatRoomId, bool includeConversation)
+        public async Task<ChatRoom> GetChatRoomById(Guid chatRoomId, bool includeConversation)
         {
-            return data.FirstOrDefault(room => room.Id.ToString() == chatRoomId);
+            var rooms = _context.ChatRooms;
+
+            if (includeConversation)
+                rooms.Include(x => x.Conversation);
+
+            return await rooms.FirstOrDefaultAsync(room => room.Id == chatRoomId);
         }
 
-        public async Task<IEnumerable<ChatMessage>> GetChatRoomConversation(string chatRoomId, int messages)
+        public IEnumerable<ChatMessage> GetChatRoomConversation(Guid chatRoomId, int messagesAmount)
         {
-            return data
-                    .FirstOrDefault(room => room.Id.ToString() == chatRoomId)?
-                    .Conversation
-                    .Select(x => x)
+            return _context
+                    .ChatMessages
+                    .Where(x => x.ChatRoom.Id == chatRoomId)
                     .OrderByDescending(message => message.PostedAt)
-                    .Take(messages);
+                    .Take(messagesAmount);
         }
 
-        public async Task Update(ChatRoom chatRoom)
+        public void Update(ChatRoom chatRoom)
         {
-            var index = data.FindIndex(x => x.Id == chatRoom.Id);
-            if (index > 1)
-                data[index] = chatRoom;
+            _context.ChatRooms.Update(chatRoom);
         }
     }
 }

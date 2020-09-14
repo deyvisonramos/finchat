@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FinChat.Chat.Application.Interfaces;
@@ -27,11 +28,11 @@ namespace FinChat.Chat.Application.Services
             _webSocketService = webSocketService;
         }
 
-        public async Task<BasicOutput<IEnumerable<ChatRoom>>> GetChatRooms()
+        public BasicOutput<IEnumerable<ChatRoom>> GetChatRooms()
         {
             var output = new BasicOutput<IEnumerable<ChatRoom>>();
 
-            var chatRooms = await _chatRoomRepository.GetAll();
+            var chatRooms = _chatRoomRepository.GetAll();
             output.SetOutput(chatRooms);
 
             return output;
@@ -41,18 +42,9 @@ namespace FinChat.Chat.Application.Services
         {
             var output = new BasicOutput<ChatRoom>();
 
-            var chatRoom = await _chatRoomRepository.GetChatRoomById(chatRoomId, false);
+            var chatRoom = await _chatRoomRepository.GetChatRoomById(Guid.Parse(chatRoomId), false);
+            chatRoom.Conversation = _chatRoomRepository.GetChatRoomConversation(chatRoom.Id, 50).ToList();
             output.SetOutput(chatRoom);
-
-            return output;
-        }
-
-        public async Task<BasicOutput<IEnumerable<ChatMessage>>> GetRecentChatRoomConversation(string chatRoomId)
-        {
-            var output = new BasicOutput<IEnumerable<ChatMessage>>();
-
-            var conversation = await _chatRoomRepository.GetChatRoomConversation(chatRoomId, 50);
-            output.SetOutput(conversation);
 
             return output;
         }
@@ -85,7 +77,7 @@ namespace FinChat.Chat.Application.Services
         public async Task<BasicOutput<string>> SendMessage(string chatRoomId, string authorId, string authorName, string message)
         {
             var result = new BasicOutput<string>();
-            var chatRoom = await _chatRoomRepository.GetChatRoomById(chatRoomId, true);
+            var chatRoom = await _chatRoomRepository.GetChatRoomById(Guid.Parse(chatRoomId), true);
 
             if(chatRoom == null)
                 result.AddNotification(new Notification("Specified chat room could not be found", ENotificationType.Error, "chatRoom"));
@@ -105,8 +97,12 @@ namespace FinChat.Chat.Application.Services
             if (!chatMessage.IsCommand)
             {
                 chatRoom.AddChatMessage(chatMessage);
-                await _chatRoomRepository.Update(chatRoom);
+                _chatRoomRepository.Update(chatRoom);
                 await _unitOfWork.CommitAsync();
+            }
+            else
+            {
+                await _webSocketService.SendCommand(chatRoom.Id.ToString(), chatMessage.Content);
             }
 
             await _webSocketService

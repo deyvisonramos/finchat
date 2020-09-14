@@ -9,13 +9,13 @@ namespace FinChat.Chat.Domain.Entities
     {
         protected ChatRoom()
         {
+            Conversation = new Collection<ChatMessage>();
         }
 
-        public ChatRoom(string name)
+        public ChatRoom(string name): this()
         {
             Id = Guid.NewGuid();
             Name = name;
-            Conversation = new Collection<ChatMessage>();
 
             Validate(this, new ChatRoomValidator());
         }

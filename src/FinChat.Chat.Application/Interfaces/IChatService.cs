@@ -7,9 +7,8 @@ namespace FinChat.Chat.Application.Interfaces
 {
     public interface IChatService
     {
-        Task<BasicOutput<IEnumerable<ChatRoom>>> GetChatRooms();
+        BasicOutput<IEnumerable<ChatRoom>> GetChatRooms();
         Task<BasicOutput<ChatRoom>> GetChatRoom(string chatRoomId);
-        Task<BasicOutput<IEnumerable<ChatMessage>>> GetRecentChatRoomConversation(string chatRoomId);
         Task<BasicOutput<ChatRoom>> CreateChatRoom(string chatRoomName);
         Task<BasicOutput<string>> SendMessage(
             string chatRoomId,

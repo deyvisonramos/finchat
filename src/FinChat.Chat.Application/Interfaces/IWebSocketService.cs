@@ -8,5 +8,6 @@ namespace FinChat.Chat.Application.Interfaces
     {
         Task<bool> CreateRoom(string chatRoomId);
         Task SendMessage(string chatRoomId, ChatMessage message);
+        Task SendCommand(string chatRoomId, string command);
     }
 }
