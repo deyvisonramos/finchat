@@ -14,6 +14,7 @@ namespace FinChat.Chat.Domain.Entities
         public ChatMessage(string content, ChatMessageAuthor author)
         {
             Id = Guid.NewGuid();
+            PostedAt = DateTime.Now;
             Content = content;
             Author = author;
 
@@ -23,7 +24,7 @@ namespace FinChat.Chat.Domain.Entities
         public DateTime PostedAt { get; set; }
         public ChatMessageAuthor Author { get; set; }
         public bool IsCommand => Content[0] == '/';
-        public string FormattedContent => $"{Author.Name} says {Content} at {PostedAt:dd/MM/yyyy hh:mm}"; 
+        public string FormattedContent => $"{Author.Name} says {Content} at {PostedAt:f}"; 
         public override string ToString()
         {
             return FormattedContent;

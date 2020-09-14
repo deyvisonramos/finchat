@@ -1,15 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using FinChat.Chat.Domain.Entities;
 using FinChat.Chat.IoC;
 using FinChat.Chat.Web.Models;
 using FinChat.Chat.Web.Transformers;
 using FinChat.Chat.Web.Transformers.Interfaces;
+using FinChat.Chat.WebSocket.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -31,7 +27,9 @@ namespace FinChat.Chat.Web
             services.RegisterChatServices();
             services.AddScoped<ITransformer<ChatRoom, ChatRoomViewModel>, ChatRoomTransformer>();
             services.AddScoped<ITransformer<ChatMessage, ChatMessageViewModel>, ChatMessageTransformer>();
+
             services.AddControllersWithViews();
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,6 +57,7 @@ namespace FinChat.Chat.Web
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapHub<ChatHub>("/chatHub");
             });
         }
     }

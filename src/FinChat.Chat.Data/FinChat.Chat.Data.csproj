@@ -6,11 +6,11 @@
 
   <ItemGroup>
     <Folder Include="Context\" />
-    <Folder Include="Transactions\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\FinChat.Chat.Domain\FinChat.Chat.Domain.csproj" />
+    <ProjectReference Include="..\FinChat.Chat.WebSocket\FinChat.Chat.WebSocket.csproj" />
   </ItemGroup>
 
 </Project>

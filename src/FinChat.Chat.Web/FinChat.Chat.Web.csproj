@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FinChat.Chat.IoC\FinChat.Chat.IoC.csproj" />
+    <ProjectReference Include="..\FinChat.Chat.WebSocket\FinChat.Chat.WebSocket.csproj" />
   </ItemGroup>
 
 </Project>

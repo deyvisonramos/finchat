@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FinChat.Chat.Application.Interfaces;
 using FinChat.Chat.Application.Models;
@@ -58,26 +59,27 @@ namespace FinChat.Chat.Application.Services
 
         public async Task<BasicOutput<ChatRoom>> CreateChatRoom(string chatRoomName)
         {
-            var output = new BasicOutput<ChatRoom>();
+            var result = new BasicOutput<ChatRoom>();
 
             if(string.IsNullOrWhiteSpace(chatRoomName))
-                output.AddNotification(new Notification("Chat name should not be empty", ENotificationType.Error, "chatRoomName"));
+                result.AddNotification(new Notification("Chat name should not be empty", ENotificationType.Error, "chatRoomName"));
 
-            if (output.Invalid)
-                return output;
+            if (result.Invalid)
+                return result;
 
             var chatRoom = new ChatRoom(chatRoomName);
 
             if (chatRoom.Invalid)
             {
-                output.AddNotifications(chatRoom.ValidationResult);
-                return output;
+                result.AddNotifications(chatRoom.ValidationResult);
+                return result;
             }
 
             await _chatRoomRepository.Create(chatRoom);
             await _unitOfWork.CommitAsync();
 
-            return output;
+            result.SetOutput(chatRoom);
+            return result;
         }
 
         public async Task<BasicOutput<string>> SendMessage(string chatRoomId, string authorId, string authorName, string message)
@@ -110,9 +112,7 @@ namespace FinChat.Chat.Application.Services
             await _webSocketService
                     .SendMessage(
                         chatRoom.Id.ToString(), 
-                        chatMessage.Author.Id,
-                        chatMessage.Author.Name,
-                        chatMessage.Content);
+                        chatMessage);
 
             result.SetOutput("The message has been sent successfully");
             return result;

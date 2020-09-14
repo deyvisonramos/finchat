@@ -17,7 +17,7 @@ namespace FinChat.Chat.Web.Transformers
             {
                 AuthorId = chatMessage.Author.Name,
                 AuthorName = chatMessage.Author.Name,
-                Message = chatMessage.Content
+                Message = chatMessage.FormattedContent
             };
 
             return viewModel;
