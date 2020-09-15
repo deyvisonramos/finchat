@@ -7,16 +7,15 @@ namespace FinChat.Infra.Core.IoC
 {
     public static class DependencyContainer
     {
-        public static void AddCoreEventBus(this IServiceCollection services)
+        public static IServiceCollection AddCoreEventBus(this IServiceCollection services)
         {
             services.AddSingleton<IEventBus, RabbitMQBus>(sp =>
             {
                 var scopeFactory = sp.GetRequiredService<IServiceScopeFactory>();
-                return new RabbitMQBus(
-                    sp.GetService<IMediator>(),
-                    scopeFactory
-                );
+                return new RabbitMQBus(scopeFactory);
             });
+
+            return services;
         }
     }
 }

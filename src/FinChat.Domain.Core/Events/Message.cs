@@ -1,8 +1,6 @@
-﻿using MediatR;
-
-namespace FinChat.Domain.Core.Events
+﻿namespace FinChat.Domain.Core.Events
 {
-    public class Message: IRequest<bool>
+    public class Message
     {
         protected Message()
         {

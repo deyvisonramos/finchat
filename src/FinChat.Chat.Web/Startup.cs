@@ -1,3 +1,5 @@
+using FinChat.Chat.Application.EventHandlers;
+using FinChat.Chat.Application.Events;
 using FinChat.Chat.Data.Context;
 using FinChat.Chat.Domain.Entities;
 using FinChat.Chat.IoC;
@@ -6,6 +8,8 @@ using FinChat.Chat.Web.Models;
 using FinChat.Chat.Web.Transformers;
 using FinChat.Chat.Web.Transformers.Interfaces;
 using FinChat.Chat.WebSocket.Hubs;
+using FinChat.Domain.Core.Bus;
+using FinChat.Infra.Core.IoC;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -39,7 +43,10 @@ namespace FinChat.Chat.Web
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
 
+            services.AddCoreEventBus();
             services.RegisterChatServices();
+            services.RegisterChatEventHandlers();
+
             services.AddScoped<ITransformer<ChatRoom, ChatRoomViewModel>, ChatRoomTransformer>();
             services.AddScoped<ITransformer<ChatMessage, ChatMessageViewModel>, ChatMessageTransformer>();
 
@@ -77,6 +84,14 @@ namespace FinChat.Chat.Web
                 endpoints.MapHub<ChatHub>("/chatHub");
                 endpoints.MapRazorPages();
             });
+
+            ConfigureEventBus(app);
+        }
+
+        private static void ConfigureEventBus(IApplicationBuilder app)
+        {
+            var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+            eventBus.Subscribe<CommandProcessedEvent, CommandProcessedEventHandler>();
         }
     }
 }

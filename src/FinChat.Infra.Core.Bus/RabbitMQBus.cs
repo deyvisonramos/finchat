@@ -4,9 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FinChat.Domain.Core.Bus;
-using FinChat.Domain.Core.Commands;
 using FinChat.Domain.Core.Events;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -16,24 +14,15 @@ namespace FinChat.Infra.Core.Bus
 {
     public class RabbitMQBus : IEventBus
     {
-        private readonly IMediator _mediator;
         private readonly Dictionary<string, List<Type>> _handlers;
         private readonly List<Type> _eventTypes;
         private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public RabbitMQBus(
-            IMediator mediator,
-            IServiceScopeFactory serviceScopeFactory)
+        public RabbitMQBus(IServiceScopeFactory serviceScopeFactory)
         {
-            _mediator = mediator;
             _serviceScopeFactory = serviceScopeFactory;
             _handlers = new Dictionary<string, List<Type>>();
             _eventTypes = new List<Type>();
-        }
-
-        public Task SendCommand<T>(T command) where T : Command
-        {
-            return _mediator.Send(command);
         }
 
         public void Publish<T>(T @event) where T : Event
