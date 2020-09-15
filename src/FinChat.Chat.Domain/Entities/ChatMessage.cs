@@ -25,6 +25,8 @@ namespace FinChat.Chat.Domain.Entities
         public ChatMessageAuthor Author { get; set; }
         public ChatRoom ChatRoom { get; set; }
         public bool IsCommand => Content[0] == '/';
+        public bool IsWarning => Content[0] == '%';
+        public bool IsMessage => !IsCommand && !IsWarning;
         public string FormattedContent => $"{Author.Name} says {Content} at {PostedAt:f}"; 
         public override string ToString()
         {

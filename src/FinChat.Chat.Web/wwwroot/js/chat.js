@@ -35,6 +35,13 @@ connection.start().then(function () {
     return console.error(err.toString());
 });
 
+$('#messageInput').keypress(function (e) {
+    if (e.which == 13) {
+        $('#messageForm').submit();
+        return false;    //<---- Add this line
+    }
+});
+
 $('#messageForm').submit(function () {
     var $theForm = $(this);
     // send xhr request
@@ -43,7 +50,7 @@ $('#messageForm').submit(function () {
         url: $theForm.attr('action'),
         data: $theForm.serialize(),
         success: function (data) {
-            $("#messageInput").value("");
+            $('#messageInput').val('');
         }
     });
 

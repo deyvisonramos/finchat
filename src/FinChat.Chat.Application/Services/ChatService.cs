@@ -94,16 +94,15 @@ namespace FinChat.Chat.Application.Services
                 return result;
             }
 
-            if (!chatMessage.IsCommand)
+            if (chatMessage.IsMessage)
             {
                 chatRoom.AddChatMessage(chatMessage);
                 _chatRoomRepository.Update(chatRoom);
                 await _unitOfWork.CommitAsync();
             }
-            else
-            {
+
+            if(chatMessage.IsCommand)
                 await _webSocketService.SendCommand(chatRoom.Id.ToString(), chatMessage.Content);
-            }
 
             await _webSocketService
                     .SendMessage(

@@ -28,12 +28,12 @@
 </div>
 <div class="row">
     <div class="col-12">
-        <ul id="messagesList">
+        <ol id="messagesList">
             @foreach (var chatMessage in Model.Conversation)
             {
-                <li>@chatMessage.AuthorName says @chatMessage.Message</li>
+                <li>@chatMessage.Message</li>
             }
-        </ul>
+        </ol>
     </div>
 </div>
 

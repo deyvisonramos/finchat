@@ -8,6 +8,12 @@
 
 <h2>Chat Rooms</h2>
 
+<style>
+    table th, table td {
+        border: 1px solid grey;
+        padding: 5px 10px;
+    }
+</style>
 
 @if (Model.Any())
 {
@@ -16,9 +22,6 @@
     <table>
         <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -31,9 +34,6 @@
         @foreach (var chatRoom in Model)
         {
             <tr>
-                <td>
-                    @chatRoom.Id
-                </td>
                 <td>
                     @chatRoom.Name
                 </td>

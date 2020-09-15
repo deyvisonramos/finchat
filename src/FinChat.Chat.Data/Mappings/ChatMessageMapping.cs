@@ -20,6 +20,8 @@ namespace FinChat.Chat.Data.Mappings
             
             builder.Ignore(x => x.FormattedContent);
             builder.Ignore(x => x.IsCommand);
+            builder.Ignore(x => x.IsMessage);
+            builder.Ignore(x => x.IsWarning);
 
             builder.OwnsOne(x => x.Author, (author) =>
             {
