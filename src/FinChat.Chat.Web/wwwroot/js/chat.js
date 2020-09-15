@@ -43,6 +43,7 @@ $('#messageForm').submit(function () {
         url: $theForm.attr('action'),
         data: $theForm.serialize(),
         success: function (data) {
+            $("#messageInput").value("");
         }
     });
 
