@@ -1,10 +1,12 @@
 ﻿using FinChat.Chat.Data.Mappings;
 using FinChat.Chat.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinChat.Chat.Data.Context
 {
-    public class FinChatDbContext: DbContext
+    public class FinChatDbContext: IdentityDbContext<IdentityUser>
     {
         public FinChatDbContext(DbContextOptions<FinChatDbContext> options): base(options)
         {
@@ -15,10 +17,11 @@ namespace FinChat.Chat.Data.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.ApplyConfiguration(new ChatRoomMapping());
             modelBuilder.ApplyConfiguration(new ChatMessageMapping());
 
-            base.OnModelCreating(modelBuilder);
         }
     }
 }

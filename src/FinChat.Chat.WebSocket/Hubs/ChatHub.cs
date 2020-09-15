@@ -9,11 +9,8 @@ namespace FinChat.Chat.WebSocket.Hubs
     {
         private readonly Dictionary<string, string> _connections = new Dictionary<string, string>();
 
-        public async Task JoinRoom(string userId, string chatRoomId)
+        public async Task JoinRoom(string chatRoomId)
         {
-            if(!_connections.ContainsKey(userId))
-                _connections.Add(userId, Context.ConnectionId);
-
             await Groups.AddToGroupAsync(Context.ConnectionId, chatRoomId).ConfigureAwait(false);
         }
 

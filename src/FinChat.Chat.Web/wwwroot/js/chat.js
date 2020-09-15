@@ -25,8 +25,7 @@ connection.on("ReceiveMessage", function (user, message) {
 
 connection.start().then(function () {
     var room = document.getElementById("chatRoomId").value;
-    var user = document.getElementById("authorId").value;
-    connection.invoke("JoinRoom", user, room).then(() =>
+    connection.invoke("JoinRoom", room).then(() =>
         {
             document.getElementById("sendButton").disabled = false;
         }).catch(function (err) {

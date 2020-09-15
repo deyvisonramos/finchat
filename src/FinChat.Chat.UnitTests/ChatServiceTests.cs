@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using FinChat.Chat.Application.Interfaces;
 using FinChat.Chat.Application.Services;
@@ -38,7 +39,7 @@ namespace FinChat.Chat.UnitTests
         {
             _chatRoomMockRepository
                 .Setup(x =>
-                    x.GetChatRoomById(It.IsAny<string>(), It.IsAny<bool>()))
+                    x.GetChatRoomById(It.IsAny<Guid>(), It.IsAny<bool>()))
                 .Returns(Task.FromResult(new ChatRoom("test chat room")));
 
             var result = await _chatService.SendMessage("fakeChatId", "fakeAuthorId", "Fake Author", message);

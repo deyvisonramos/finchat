@@ -5,13 +5,13 @@ VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{1D1E023B-31F4-43B9-8C87-2B9DC313C883}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinChat.Domain.Core", "src\FinChat.Domain.Core\FinChat.Domain.Core.csproj", "{25C6552C-7E32-4F10-9595-0A74F24091B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinChat.Domain.Core", "src\FinChat.Domain.Core\FinChat.Domain.Core.csproj", "{25C6552C-7E32-4F10-9595-0A74F24091B8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infra", "Infra", "{C9E2319E-9AF9-4850-9976-74E92BEDE4E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinChat.Infra.Core.Bus", "src\FinChat.Infra.Core.Bus\FinChat.Infra.Core.Bus.csproj", "{99B9D80B-4758-4F35-B5ED-C6C504C3FE3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinChat.Infra.Core.Bus", "src\FinChat.Infra.Core.Bus\FinChat.Infra.Core.Bus.csproj", "{99B9D80B-4758-4F35-B5ED-C6C504C3FE3E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinChat.Infra.Core.IoC", "src\FinChat.Infra.Core.IoC\FinChat.Infra.Core.IoC.csproj", "{9E934CFE-ADB2-4AE9-A008-62018C463EC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinChat.Infra.Core.IoC", "src\FinChat.Infra.Core.IoC\FinChat.Infra.Core.IoC.csproj", "{9E934CFE-ADB2-4AE9-A008-62018C463EC3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Chat", "Chat", "{152C7928-C624-4511-92AA-ED967F0C2AA8}"
 EndProject
@@ -25,27 +25,27 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Domain", "3 - Domain", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Infra", "4 - Infra", "{B50BFA02-EB20-4D0B-8F68-C2C19AF1BD8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinChat.Chat.Web", "src\FinChat.Chat.Web\FinChat.Chat.Web.csproj", "{92D3DC18-3FA0-446B-BD8D-374F3954CCFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinChat.Chat.Web", "src\FinChat.Chat.Web\FinChat.Chat.Web.csproj", "{92D3DC18-3FA0-446B-BD8D-374F3954CCFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinChat.Chat.Application", "src\FinChat.Chat.Application\FinChat.Chat.Application.csproj", "{1339297C-65C0-42BC-8297-27E030855AD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinChat.Chat.Application", "src\FinChat.Chat.Application\FinChat.Chat.Application.csproj", "{1339297C-65C0-42BC-8297-27E030855AD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinChat.Chat.Domain", "src\FinChat.Chat.Domain\FinChat.Chat.Domain.csproj", "{4808FA5D-6665-47C9-B003-B995C7E20C54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinChat.Chat.Domain", "src\FinChat.Chat.Domain\FinChat.Chat.Domain.csproj", "{4808FA5D-6665-47C9-B003-B995C7E20C54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinChat.ChatBots.StockQuotation", "src\FinChat.ChatBots.StockQuotation\FinChat.ChatBots.StockQuotation.csproj", "{BF763E19-2AF5-4D59-8054-4EA9125FCB37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinChat.ChatBots.StockQuotation", "src\FinChat.ChatBots.StockQuotation\FinChat.ChatBots.StockQuotation.csproj", "{BF763E19-2AF5-4D59-8054-4EA9125FCB37}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 - Tests", "5 - Tests", "{D223FF52-85F9-42D0-A3FD-34ABDF00C162}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinChat.Chat.UnitTests", "src\FinChat.Chat.UnitTests\FinChat.Chat.UnitTests.csproj", "{AA049DF1-D9AC-4DEE-9B05-250A511D6590}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinChat.Chat.UnitTests", "src\FinChat.Chat.UnitTests\FinChat.Chat.UnitTests.csproj", "{AA049DF1-D9AC-4DEE-9B05-250A511D6590}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StockQuotation", "StockQuotation", "{C0F5AFD7-8062-479E-9433-20EBF67CE244}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinChat.ChatBots.SotckQuotation.Tests", "src\FinChat.ChatBots.SotckQuotation.Tests\FinChat.ChatBots.SotckQuotation.Tests.csproj", "{3964146D-1D8F-40D3-A407-15B06E3CC525}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinChat.ChatBots.SotckQuotation.Tests", "src\FinChat.ChatBots.SotckQuotation.Tests\FinChat.ChatBots.SotckQuotation.Tests.csproj", "{3964146D-1D8F-40D3-A407-15B06E3CC525}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinChat.Chat.WebSocket", "src\FinChat.Chat.WebSocket\FinChat.Chat.WebSocket.csproj", "{44B8316D-5961-4D69-B3BD-1EA410B65841}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinChat.Chat.WebSocket", "src\FinChat.Chat.WebSocket\FinChat.Chat.WebSocket.csproj", "{44B8316D-5961-4D69-B3BD-1EA410B65841}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinChat.Chat.IoC", "src\FinChat.Chat.IoC\FinChat.Chat.IoC.csproj", "{FC4851AD-C1DC-4708-9DB2-C55DAB1681F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinChat.Chat.IoC", "src\FinChat.Chat.IoC\FinChat.Chat.IoC.csproj", "{FC4851AD-C1DC-4708-9DB2-C55DAB1681F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinChat.Chat.Data", "src\FinChat.Chat.Data\FinChat.Chat.Data.csproj", "{84230F0B-85AC-48B0-8257-AC99315F7E5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinChat.Chat.Data", "src\FinChat.Chat.Data\FinChat.Chat.Data.csproj", "{84230F0B-85AC-48B0-8257-AC99315F7E5F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

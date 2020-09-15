@@ -4,10 +4,12 @@ using FinChat.Chat.Application.Interfaces;
 using FinChat.Chat.Domain.Entities;
 using FinChat.Chat.Web.Models;
 using FinChat.Chat.Web.Transformers.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinChat.Chat.Web.Controllers
 {
+    [Authorize]
     public class ChatController : Controller
     {
         private readonly IChatService _chatService;
@@ -48,7 +50,8 @@ namespace FinChat.Chat.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> SendMessage(ChatMessageViewModel model)
         {
-            var result = await _chatService.SendMessage(model.ChatRoomId, model.AuthorId, model.AuthorName, model.Message);
+            var user = User.Identity.Name;
+            var result = await _chatService.SendMessage(model.ChatRoomId, user, user, model.Message);
             return Ok(result);
         }
     }

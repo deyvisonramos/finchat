@@ -13,16 +13,8 @@
     <form asp-action="SendMessage" method="post" id="messageForm">
         <input name="chatRoomId" type="hidden" id="chatRoomId" value="@Model.Id" />
         <div class="row">
-            <div class="col-4">Author Id</div>
-            <div class="col-4"><input type="text" name="authorId" id="authorId" /></div>
-        </div>
-        <div class="row">
-            <div class="col-4">Author Name</div>
-            <div class="col-4"><input type="text" name="authorName" id="authorName" /></div>
-        </div>
-        <div class="row">
-            <div class="col-4">Message</div>
-            <div class="col-4"><textarea type="text" name="message" id="messageInput"></textarea></div>
+            <div class="col-2">Message</div>
+            <div class="col-6"><textarea style="width: 100%" type="text" name="message" id="messageInput"></textarea></div>
         </div>
         <div class="col-6">
             <button type="submit" id="sendButton">Send Message</button>

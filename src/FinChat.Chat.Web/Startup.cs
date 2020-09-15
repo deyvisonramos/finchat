@@ -1,12 +1,14 @@
 using FinChat.Chat.Data.Context;
 using FinChat.Chat.Domain.Entities;
 using FinChat.Chat.IoC;
+using FinChat.Chat.Web.Areas.Identity;
 using FinChat.Chat.Web.Models;
 using FinChat.Chat.Web.Transformers;
 using FinChat.Chat.Web.Transformers.Interfaces;
 using FinChat.Chat.WebSocket.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,12 +32,20 @@ namespace FinChat.Chat.Web
             {
                 options.UseSqlServer(Configuration.GetConnectionString("FinChatDbCS"));
             });
+
+            services
+                .AddDefaultIdentity<IdentityUser>()
+                .AddEntityFrameworkStores<FinChatDbContext>()
+                .AddDefaultUI()
+                .AddDefaultTokenProviders();
+
             services.RegisterChatServices();
             services.AddScoped<ITransformer<ChatRoom, ChatRoomViewModel>, ChatRoomTransformer>();
             services.AddScoped<ITransformer<ChatMessage, ChatMessageViewModel>, ChatMessageTransformer>();
 
             services.AddControllersWithViews();
             services.AddSignalR();
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +66,7 @@ namespace FinChat.Chat.Web
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -64,6 +75,7 @@ namespace FinChat.Chat.Web
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapHub<ChatHub>("/chatHub");
+                endpoints.MapRazorPages();
             });
         }
     }
