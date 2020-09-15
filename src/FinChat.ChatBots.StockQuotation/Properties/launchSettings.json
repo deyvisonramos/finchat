@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "FinChat.ChatBots.StockQuotation": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "environmentVariables": {
+        "ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

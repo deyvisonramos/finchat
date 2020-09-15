@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+
+  web-mvc:
+    image: deyvisonramos/finchat-web-mvc:latest
+    container_name: finchat-web-mvc
+    build:
+      context: ../src
+      dockerfile: ./FinChat.Chat.Web/Dockerfile
+    ports:
+      - "5001:5001"
+      - "5000:5000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://*:5001
+
+  stock-bot:
+    image: deyvisonramos/stock-bot:latest
+    container_name: stock-bot
+    build:
+      context: ../src
+      dockerfile: ./FinChat.ChatBots.StockQuotation/Dockerfile
+    environment:
+      - ENVIRONMENT=Production
+    depends_on:
+      - web-mvc
+
+networks:
+  default:
+      external:
+          name: finchatnet_dependencies

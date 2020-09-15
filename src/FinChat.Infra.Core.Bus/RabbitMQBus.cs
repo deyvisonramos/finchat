@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FinChat.Domain.Core;
 using FinChat.Domain.Core.Bus;
 using FinChat.Domain.Core.Events;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+
 
 namespace FinChat.Infra.Core.Bus
 {
@@ -17,20 +21,33 @@ namespace FinChat.Infra.Core.Bus
         private readonly Dictionary<string, List<Type>> _handlers;
         private readonly List<Type> _eventTypes;
         private readonly IServiceScopeFactory _serviceScopeFactory;
+        private readonly MessageQueueConnectionSettings _messageBusSettings;
 
-        public RabbitMQBus(IServiceScopeFactory serviceScopeFactory)
+        public RabbitMQBus(IServiceScopeFactory serviceScopeFactory, IConfiguration configuration)
         {
             _serviceScopeFactory = serviceScopeFactory;
+            _messageBusSettings = 
+                configuration
+                    .GetSection("MessageQueueConnectionSettings")
+                    .Get<MessageQueueConnectionSettings>();
             _handlers = new Dictionary<string, List<Type>>();
             _eventTypes = new List<Type>();
         }
 
+        private ConnectionFactory GetConnectionFactory()
+        {
+            return new ConnectionFactory
+            {
+                HostName = _messageBusSettings.HostName,
+                Port = _messageBusSettings.Port,
+                UserName = string.IsNullOrEmpty(_messageBusSettings.Username) ? ConnectionFactory.DefaultUser : _messageBusSettings.Username,
+                Password = string.IsNullOrEmpty(_messageBusSettings.Password) ? ConnectionFactory.DefaultPass : _messageBusSettings.Password
+            };
+        }
+
         public void Publish<T>(T @event) where T : Event
         {
-            var factory = new ConnectionFactory()
-            {
-                HostName = "localhost"
-            };
+            var factory = GetConnectionFactory();
 
             using var connection = factory.CreateConnection();
             using var channel = connection.CreateModel();
@@ -68,11 +85,10 @@ namespace FinChat.Infra.Core.Bus
 
         private void StartBasicConsume<T>() where T : Event
         {
-            var factory = new ConnectionFactory()
-            {
-                HostName = "localhost",
-                DispatchConsumersAsync = true
-            };
+            Debug.WriteLine(JsonConvert.SerializeObject(_messageBusSettings));
+            Debug.Print(JsonConvert.SerializeObject(_messageBusSettings));
+            var factory = GetConnectionFactory();
+            factory.DispatchConsumersAsync = true;
 
             var connection = factory.CreateConnection();
             var channel = connection.CreateModel();

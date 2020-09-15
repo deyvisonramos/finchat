@@ -1,6 +1,6 @@
 ﻿using FinChat.Domain.Core.Bus;
 using FinChat.Infra.Core.Bus;
-using MediatR;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FinChat.Infra.Core.IoC
@@ -12,7 +12,8 @@ namespace FinChat.Infra.Core.IoC
             services.AddSingleton<IEventBus, RabbitMQBus>(sp =>
             {
                 var scopeFactory = sp.GetRequiredService<IServiceScopeFactory>();
-                return new RabbitMQBus(scopeFactory);
+                var configuration = sp.GetService<IConfiguration>();
+                return new RabbitMQBus(scopeFactory, configuration);
             });
 
             return services;

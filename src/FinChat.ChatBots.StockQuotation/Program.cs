@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using FinChat.ChatBots.StockQuotation.Events;
 using FinChat.ChatBots.StockQuotation.Tools;
@@ -11,6 +12,7 @@ namespace FinChat.ChatBots.StockQuotation
 {
     internal class Program
     {
+        private static readonly AutoResetEvent WaitHandle = new AutoResetEvent(false);
         private static void Main(string[] args)
         {
             var serviceProvider = Setup.Build().ConfigureServices();
@@ -46,14 +48,18 @@ namespace FinChat.ChatBots.StockQuotation
             try
             {
                 connection.StartAsync().Wait();
-                Console.WriteLine("the quotation bot has been started.");
             }
             catch (Exception ex)
             {
                Console.WriteLine(ex.Message);
             }
-            Console.WriteLine("press any key to stop the bot");
-            Console.ReadKey();
+
+            Console.WriteLine("Application started. Press Ctrl+C to shut to stop the bot");
+            Console.CancelKeyPress += (o, e) =>
+            {
+                WaitHandle.Set();
+            };
+            WaitHandle.WaitOne();
         }
     }
 }

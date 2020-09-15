@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq-finchat
+    environment:
+      RABBITMQ_DEFAULT_USER: "finchat"
+      RABBITMQ_DEFAULT_PASS: "finchat"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - finchatnet
+
+  sql-server:
+    image: deyvisonramos/finchat-sql-server:latest
+    container_name: finchat-sql-server
+    build:
+      context: ../sql
+      dockerfile: ./Dockerfile
+    environment:
+      SA_PASSWORD: "Yj819806Kd"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    networks:
+      - finchatnet
+
+networks:
+  finchatnet:
+      name: finchatnet_dependencies

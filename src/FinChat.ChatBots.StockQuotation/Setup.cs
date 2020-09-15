@@ -32,8 +32,10 @@ namespace FinChat.ChatBots.StockQuotation
 
         private IConfiguration BuildConfiguration()
         {
+            var environmentName = Environment.GetEnvironmentVariable("ENVIRONMENT");
             return new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{environmentName}.json", true, true)
                 .AddEnvironmentVariables()
                 .Build();
         }
