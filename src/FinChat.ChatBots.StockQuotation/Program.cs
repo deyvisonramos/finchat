@@ -7,13 +7,14 @@ using FinChat.Domain.Core.Bus;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace FinChat.ChatBots.StockQuotation
 {
     internal class Program
     {
         private static readonly AutoResetEvent WaitHandle = new AutoResetEvent(false);
-        private static void Main(string[] args)
+        private static async Task Main(string[] args)
         {
             var serviceProvider = Setup.Build().ConfigureServices();
             var eventBus = serviceProvider.GetService<IEventBus>();
@@ -22,11 +23,19 @@ namespace FinChat.ChatBots.StockQuotation
             var connection = new HubConnectionBuilder()
                 .WithUrl(configuration.GetSection("chatHubUrl").Value)
                 .WithAutomaticReconnect()
+                .ConfigureLogging(logging =>
+                {
+                    logging.AddFilter("Microsoft.AspNetCore.SignalR", LogLevel.Information);
+                    logging.AddFilter("Microsoft.AspNetCore.Http.Connections", LogLevel.Information);
+                    logging.AddConsole();
+
+                })
                 .Build();
 
 
             connection.On<string, string>("ReceiveCommand", (chatRoom, command) =>
             {
+                Console.WriteLine($"command '{command}' received from chatroom '{chatRoom}'");
                 var bot = new StockQuotationBot("stock-quotation-bot");
                 string contentOutput;
 
@@ -47,7 +56,7 @@ namespace FinChat.ChatBots.StockQuotation
 
             try
             {
-                connection.StartAsync().Wait();
+                await connection.StartAsync();
             }
             catch (Exception ex)
             {

@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using FinChat.Chat.Application.Events;
 using FinChat.Chat.Application.Interfaces;
 using FinChat.Domain.Core.Bus;
+using Newtonsoft.Json;
 
 namespace FinChat.Chat.Application.EventHandlers
 {
@@ -14,16 +16,14 @@ namespace FinChat.Chat.Application.EventHandlers
             _chatService = chatService;
         }
 
-        public Task Handle(CommandProcessedEvent @event)
+        public async Task Handle(CommandProcessedEvent @event)
         {
-            _chatService
+            await _chatService
                 .SendMessage(
                     @event.ChatRoomId, 
                     @event.ProcessorId, 
                     @event.ProcessorName, 
-                    @event.Content)
-                .Wait();
-            return Task.CompletedTask;
+                    @event.Content);
         }
     }
 }

@@ -72,6 +72,13 @@ namespace FinChat.Chat.Web
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseCors(builder =>
+            {
+                builder
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowAnyOrigin();
+            });
 
             app.UseRouting();
 

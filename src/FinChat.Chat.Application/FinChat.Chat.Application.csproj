@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\FinChat.Chat.Domain\FinChat.Chat.Domain.csproj" />
     <ProjectReference Include="..\FinChat.Domain.Core\FinChat.Domain.Core.csproj" />
   </ItemGroup>
