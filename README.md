@@ -23,7 +23,7 @@ The way to run is using the docker-compose files inside the folder named "docker
 
 ### Development
 
-- To run the application in debug, you'll need to provide to the web application (FinChat.Chat.Web) connection to a Sql Server database and to RabbitMQ, both of them you'll find in the file **appsettings.Development.json**, inside the project. Reminding that you can use the **create-database-script.sql** script to create the database or run an Entity Framework migration, just need to point to the data project (FinChat.Chat.Data).
+- To run the application in debug, you'll need to provide to the web application (FinChat.Chat.Web) connection to a Sql Server database and to RabbitMQ, both of them you'll find in the file **appsettings.Development.json**, inside the project. Reminding that you can use the **create-database-script.sql** script to create the database or run an Entity Framework migration, just need to use the data project (FinChat.Chat.Data) on package manage console or using the ef core tools commandline.
 - You'll need to provide the connection settings to the bot project's (FinChat.ChatBots.StockQuotation) **appsettings.Development.json** too.
 - With everything setup with just need to start the (FinChat.Chat.Web) project and then the bot (FinChat.ChatBots.StockQuotation), necessarily in that order.
 
